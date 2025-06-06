@@ -23,4 +23,7 @@ Route::post('/login/check', [AuthController::class, 'onLogin']);
 Route::post('/dashboard/add', [MainController::class, 'onAdd']);
 Route::post('/review/add', [MainController::class, 'onAddReview']);
 
+Route::get('/log', function () {
+    return response()->file(storage_path('logs/laravel.log'));
+});
 

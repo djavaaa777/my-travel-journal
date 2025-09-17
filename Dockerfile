@@ -1,21 +1,21 @@
-FROM php:8.1-fpm
+FROM php:8.2-apache
 
 RUN apt-get update && apt-get install -y \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    unzip \
-    curl \
-    git \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+    git unzip libzip-dev libpng-dev libonig-dev libxml2-dev zip curl \
+    && docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath gd
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 
-COPY . /var/www
+RUN a2enmod rewrite
+WORKDIR /var/www/html
 
-WORKDIR /var/www
+COPY . .
 
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader
+RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
 
-CMD php artisan serve --host=0.0.0.0 --port=3000
+WORKDIR /var/www/html/public
+
+EXPOSE 80
+
+CMD ["apache2-foreground"]

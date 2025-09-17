@@ -16,9 +16,8 @@ My Travel Journal is a web application built with Laravel that allows users to e
 - Railway (Hosting)
 - HTML, CSS, Blade Templates
 
-## Live Demo
-
-Check out the live site here: [My Travel Journal](https://my-travel-journal-production.up.railway.app/)
+##  Project Mockup
+![Mockup](docs/mockup.png)
 
 ## Getting Started
 
